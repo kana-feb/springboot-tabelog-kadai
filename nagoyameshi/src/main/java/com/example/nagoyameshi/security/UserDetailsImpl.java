@@ -1,0 +1,71 @@
+//UserDetailsImpl.java ユーザー情報保持用のメソッドやフィールドを追加するクラス
+
+package com.example.nagoyameshi.security;
+
+import java.util.Collection;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.example.nagoyameshi.entity.User;
+
+public class UserDetailsImpl implements UserDetails {
+    // ユーザー情報の管理用フィールド
+		//対象のユーザーとロール格納
+    private final User user;
+    private final Collection<GrantedAuthority> authorities;
+    
+    //コンストラクタの定義
+    public UserDetailsImpl(User user, Collection<GrantedAuthority> authorities) {
+        this.user = user;
+        this.authorities = authorities;
+    }
+
+    public User getUser() {
+        return user;
+    }
+    
+    //認証に関する7つのメソッドを実装（Overrideする）
+    // ハッシュ化済みのパスワードを返す
+    @Override
+    public String getPassword() {
+        return user.getPassword();
+    }
+
+    // ログイン時に利用するユーザー名を返す
+    @Override
+    public String getUsername() {
+        return user.getEmail();
+    }
+
+    // ロールのコレクションを返す
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
+
+    // アカウントが期限切れでなければtrueを返す
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    // ユーザーがロックされていなければtrueを返す
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    // ユーザーのパスワードが期限切れでなければtrueを返す
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    // ユーザーが有効であればtrueを返す
+    @Override
+    public boolean isEnabled() {
+        // DBの enabled フィールドに基づいて判定する
+        return Boolean.TRUE.equals(user.getEnabled());
+    }
+}
