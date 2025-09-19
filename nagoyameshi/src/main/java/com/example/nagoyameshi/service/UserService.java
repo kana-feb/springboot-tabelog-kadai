@@ -27,6 +27,8 @@ import com.example.nagoyameshi.repository.UserRepository;
 
 @Service
 public class UserService {
+   private static final List<String> MEMBER_ROLE_NAMES = List.of("ROLE_FREE_MEMBER", "ROLE_PAID_MEMBER");
+
    private final UserRepository userRepository;
    private final RoleRepository roleRepository;
    private final PasswordEncoder passwordEncoder;
@@ -137,14 +139,24 @@ public class UserService {
    public Page<User> findAllUsers(Pageable pageable) {
        return userRepository.findAll(pageable);
    }
+   // 会員ロールのユーザーをページングされた状態で取得する
+   public Page<User> findAllMembers(Pageable pageable) {
+       return userRepository.findByRoleNames(MEMBER_ROLE_NAMES, pageable);
+   }
 
    // 指定されたキーワードを氏名、フリガナ、メールアドレスに含むユーザーを、ページングされた状態で取得する
    public Page<User> findUsersByNameLikeOrFuriganaLikeOrEmailLike(String nameKeyword, String furiganaKeyword,
            String emailKeyword, Pageable pageable) {
        return userRepository.findByNameLikeOrFuriganaLikeOrEmailLike("%" + nameKeyword + "%",
                "%" + furiganaKeyword + "%", "%" + emailKeyword + "%", pageable);
-       }
+   }
 
+   // 指定されたキーワードを含む会員ロールのユーザーをページングされた状態で取得する
+   public Page<User> findMembersByNameLikeOrFuriganaLikeOrEmailLike(String nameKeyword, String furiganaKeyword,
+           String emailKeyword, Pageable pageable) {
+       return userRepository.findByRoleNamesAndKeyword(MEMBER_ROLE_NAMES, "%" + nameKeyword + "%",
+               "%" + furiganaKeyword + "%", "%" + emailKeyword + "%", pageable);
+   }
    // 指定したidを持つユーザーを取得する
    public Optional<User> findUserById(Integer id) {
        return userRepository.findById(id);
