@@ -25,5 +25,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             @Param("emailKeyword") String emailKeyword, Pageable pageable);
 
     // public Page<User> findUsersByNameLikeOrFuriganaLike(String keyword, Pageable pageable) ;
-    public long countByRole_Name(String roleName);
+    public Long countByRole_Name(String roleName);
 }

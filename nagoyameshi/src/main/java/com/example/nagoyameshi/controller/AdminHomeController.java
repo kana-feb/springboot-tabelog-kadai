@@ -28,14 +28,14 @@ public class AdminHomeController {
        long totalFreeMembers = userService.countUsersByRole_Name("ROLE_FREE_MEMBER");
        long totalPaidMembers = userService.countUsersByRole_Name("ROLE_PAID_MEMBER");
        long totalAdminMembers = userService.countUsersByRole_Name("ROLE_ADMIN");
-       long totalMembers = totalFreeMembers + totalPaidMembers + totalAdminMembers;
+       long totalMembers = totalFreeMembers + totalPaidMembers ;
        long totalRestaurants = restaurantService.countRestaurants();
        long totalReservations = reservationService.countReservations();
        long salesForThisMonth = 300 * totalPaidMembers;
 
        model.addAttribute("totalFreeMembers", totalFreeMembers);
        model.addAttribute("totalPaidMembers", totalPaidMembers);
-       model.addAttribute("totalPaidMembers", totalAdminMembers);
+       model.addAttribute("totalAdminMembers", totalAdminMembers);
        model.addAttribute("totalMembers", totalMembers);
        model.addAttribute("totalRestaurants", totalRestaurants);
        model.addAttribute("totalReservations", totalReservations);
