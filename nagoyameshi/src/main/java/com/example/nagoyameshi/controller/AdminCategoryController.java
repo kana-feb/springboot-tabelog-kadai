@@ -63,7 +63,7 @@ public class AdminCategoryController {
         model.addAttribute("categoryEditForm", new CategoryEditForm());         // 編集用フォーム
 
 
-        return "/admin/categories/index"; // ビューのパス
+        return "admin/categories/index"; // ビューのパス
     }
 
     // ==================== 詳細ページ ====================
@@ -85,7 +85,7 @@ public class AdminCategoryController {
         Category category = optionalCategory.get();
         model.addAttribute("category", category);
 
-        return "/admin/categories/show"; // 詳細画面
+        return "admin/categories/show"; // 詳細画面
     }
     
     // ==================== 登録処理 ====================
